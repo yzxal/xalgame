@@ -194,6 +194,10 @@ const MemoryGame = {
     
     // 初始化游戏
     init() {
+        // 隐藏游戏界面，只显示主菜单
+        document.getElementById('game-screen').style.display = 'none';
+        document.getElementById('main-menu').style.display = 'block';
+        
         this.setupEventListeners();
         this.initAudio();
     },
@@ -249,16 +253,6 @@ const MemoryGame = {
         });
         // 显示游戏界面
         document.getElementById('game-screen').style.display = 'block';
-    },
-    
-    // 显示主界面
-    showMainMenu() {
-        // 隐藏所有界面
-        document.querySelectorAll('.game-container').forEach(screen => {
-            screen.style.display = 'none';
-        });
-        // 显示主界面
-        document.getElementById('main-menu').style.display = 'block';
     },
     
     // 开始关卡

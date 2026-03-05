@@ -43,11 +43,6 @@ body::before {
     margin: 0 auto;
 }
 
-/* 初始状态：只显示主菜单 */
-#game-screen {
-    display: none;
-}
-
 /* 确保主菜单和游戏界面大小一致 */
 #main-menu,
 #game-screen {
