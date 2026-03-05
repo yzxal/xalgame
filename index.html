@@ -7,8 +7,24 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="game-container">
+    <!-- 主界面 -->
+    <div id="main-menu" class="game-container active">
+        <div class="sun"></div>
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
         <h1>卡通动物翻牌游戏</h1>
+        <p class="game-description">挑战你的记忆力，完成所有关卡！</p>
+        <div class="menu-buttons">
+            <button id="start-game-btn">开始游戏</button>
+        </div>
+    </div>
+    
+    <!-- 游戏界面 -->
+    <div id="game-screen" class="game-container">
+        <div class="sun"></div>
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+        <h1 id="level-title">第一关</h1>
         
         <div class="game-stats">
             <div class="stat">
@@ -22,11 +38,11 @@
         </div>
         
         <div class="game-controls">
-            <button id="start-btn">开始游戏</button>
-            <button id="restart-btn">重新开始</button>
+            <button id="music-btn" class="music-btn music-off"></button>
+            <button id="exit-to-menu">返回主菜单</button>
         </div>
         
-        <div class="game-board">
+        <div class="game-board" id="game-board">
             <!-- 卡片将通过JavaScript动态生成 -->
         </div>
         
@@ -34,7 +50,11 @@
             <h2>恭喜你赢了！</h2>
             <p>用时: <span id="final-time">00:00</span></p>
             <p>翻牌次数: <span id="final-flips">0</span></p>
-            <button id="play-again-btn">再玩一次</button>
+            <div class="win-buttons">
+                <button id="next-level-btn">下一关</button>
+                <button id="play-again-btn">再玩一次</button>
+                <button id="win-exit-btn">返回主菜单</button>
+            </div>
         </div>
     </div>
     
