@@ -40,17 +40,35 @@ body::before {
     width: 95%;
     position: relative;
     overflow: hidden;
+    margin: 0 auto;
+}
+
+/* 初始状态：只显示主菜单 */
+#game-screen {
     display: none;
 }
 
-/* 游戏界面调整 */
+/* 确保主菜单和游戏界面大小一致 */
+#main-menu,
 #game-screen {
     max-width: 600px;
+    width: 95%;
+    min-height: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-.game-container.active {
-    display: block;
+/* 主菜单背景图片调整 */
+#main-menu {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
+
+
 
 /* 主界面样式 */
 .game-description {
@@ -67,6 +85,51 @@ body::before {
     gap: 20px;
     position: relative;
     z-index: 1;
+    margin-bottom: 30px;
+}
+
+/* 主菜单内容 */
+.main-menu-content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    padding: 20px;
+}
+
+/* 主菜单背景图片 */
+#main-menu {
+    background-image: url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cute%20cartoon%20zoo%20scene%20with%20various%20animals%20in%20colorful%20style%20without%20watermark%20clean%20image%20wide%20landscape');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* 主菜单按钮 */
+#main-menu button {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 0px #c84b5a, 0 8px 10px rgba(0, 0, 0, 0.2);
+    margin-top: 30px;
+}
+
+/* 确保主菜单与游戏界面大小一致 */
+#main-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 /* 关卡选择界面样式 */

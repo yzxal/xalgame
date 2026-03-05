@@ -14,6 +14,7 @@ const MemoryGame = {
         globalTimerInterval: null, // 全局计时器
         backgroundMusic: null, // 背景音乐
         musicEnabled: true, // 音乐是否开启
+        failedAttempts: 0, // 连续失败次数
         levelConfig: {
             1: { rows: 2, cols: 2, pairs: 2 },
             2: { rows: 4, cols: 4, pairs: 8 },
@@ -49,6 +50,18 @@ const MemoryGame = {
     playMatchSound() {
         // 创建音频对象
         const audio = new Audio('菜鸟图库-真香哎呀吗王.mp3');
+        audio.volume = 0.5;
+        
+        // 播放音效
+        audio.play().catch(error => {
+            console.log('音效播放失败:', error);
+        });
+    },
+    
+    // 播放失败音效
+    playFailSound() {
+        // 创建音频对象
+        const audio = new Audio('菜鸟图库-不！（撒娇）.mp3');
         audio.volume = 0.5;
         
         // 播放音效
@@ -220,36 +233,49 @@ const MemoryGame = {
     
     // 显示主界面
     showMainMenu() {
-        this.hideAllScreens();
-        document.getElementById('main-menu').classList.add('active');
+        // 隐藏所有界面
+        document.querySelectorAll('.game-container').forEach(screen => {
+            screen.style.display = 'none';
+        });
+        // 显示主界面
+        document.getElementById('main-menu').style.display = 'block';
     },
     
     // 显示游戏界面
     showGameScreen() {
-        this.hideAllScreens();
-        document.getElementById('game-screen').classList.add('active');
+        // 隐藏所有界面
+        document.querySelectorAll('.game-container').forEach(screen => {
+            screen.style.display = 'none';
+        });
+        // 显示游戏界面
+        document.getElementById('game-screen').style.display = 'block';
     },
     
-    // 隐藏所有界面
-    hideAllScreens() {
+    // 显示主界面
+    showMainMenu() {
+        // 隐藏所有界面
         document.querySelectorAll('.game-container').forEach(screen => {
-            screen.classList.remove('active');
+            screen.style.display = 'none';
         });
+        // 显示主界面
+        document.getElementById('main-menu').style.display = 'block';
     },
     
     // 开始关卡
     startLevel(level) {
         this.gameState.currentLevel = level;
+        
+        // 如果是第一关，重置翻牌次数
+        if (level === 1) {
+            this.gameState.flipCount = 0;
+            this.startGlobalTimer();
+        }
+        
         this.resetGameState();
         this.showGameScreen();
         this.updateLevelTitle();
         this.createCards();
         this.renderGameBoard();
-        
-        // 如果是第一关，启动全局计时器
-        if (level === 1) {
-            this.startGlobalTimer();
-        }
     },
     
     // 重置游戏状态
@@ -257,16 +283,16 @@ const MemoryGame = {
         this.gameState.cards = [];
         this.gameState.flippedCards = [];
         this.gameState.matchedCards = [];
-        this.gameState.flipCount = 0;
         this.gameState.timer = 0;
         this.gameState.gameStarted = false;
+        this.gameState.failedAttempts = 0; // 重置失败计数
         
         if (this.gameState.timerInterval) {
             clearInterval(this.gameState.timerInterval);
         }
         
         // 更新UI
-        document.getElementById('flip-count').textContent = '0';
+        document.getElementById('flip-count').textContent = this.gameState.flipCount;
         // 使用全局计时器
         this.updateGlobalTimerDisplay();
         document.getElementById('win-message').classList.remove('active');
@@ -444,6 +470,9 @@ const MemoryGame = {
             // 播放匹配成功音效
             this.playMatchSound();
             
+            // 卡片匹配，重置失败计数
+            this.gameState.failedAttempts = 0;
+            
             // 卡片匹配
             card1.matched = true;
             card2.matched = true;
@@ -457,6 +486,16 @@ const MemoryGame = {
             // 卡片不匹配，翻回
             card1.flipped = false;
             card2.flipped = false;
+            
+            // 增加失败计数
+            this.gameState.failedAttempts++;
+            
+            // 如果连续失败3次，播放失败音效
+            if (this.gameState.failedAttempts >= 3) {
+                this.playFailSound();
+                // 重置失败计数
+                this.gameState.failedAttempts = 0;
+            }
         }
         
         // 清空翻开的卡片数组
